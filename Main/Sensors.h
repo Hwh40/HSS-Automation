@@ -13,6 +13,6 @@ void sensor_init(void);
 
 int callibrate(void);
 
-status_t update(status_t);
+status_t updateSensor(status_t);
 
 #endif

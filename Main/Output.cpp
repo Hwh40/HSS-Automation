@@ -26,3 +26,13 @@ void light_off(void)
 {
   digitalWrite(LIGHT, LOW);
 }
+
+void updateOutput(output_t out)
+{
+  digitalWrite(R1, out.relay1);
+  digitalWrite(R2, out.relay2);
+  digitalWrite(R3, out.relay3);
+  digitalWrite(D1, out.digital1);
+  digitalWrite(D2, out.digital2);
+  digitalWrite(LIGHT, out.light);
+}

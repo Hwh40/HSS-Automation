@@ -2,7 +2,7 @@
 #include <stdint.h>
 
 
-static uint8_t PERIOD;
+static uint16_t PERIOD;
 
 void pacer_init(uint8_t pacer)
 {

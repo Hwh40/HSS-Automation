@@ -8,6 +8,7 @@
 */
 
 #include <stdint.h>
+#include <stdbool.h>
 #include "Pacer.h"
 #include "Sensors.h"
 #include "Output.h"
@@ -17,6 +18,7 @@
 int equilibrium;
 
 status_t status;
+output_t out = {0,0,0,0,0,0};
 
 
 void setup() 
@@ -29,12 +31,27 @@ void setup()
   output_init();
 }
 
-void sensor_serial(void)
+void output_serial(void)
 {
   if (Serial.read() == '\n') {
+    Serial.print("Outputs:\n");
+    Serial.print(out.relay1);
+    Serial.print("\n");
+    Serial.print(out.relay2);
+    Serial.print("\n");
+    Serial.print(out.relay3);
+    Serial.print("\n");
+    Serial.print(out.digital1);
+    Serial.print("\n");
+    Serial.print(out.digital2);
+    Serial.print("\n");
+    Serial.print(out.light);
+    Serial.print("\n");
+    Serial.print("Sensors:\n");
     Serial.print(status.error);
     Serial.print("\n");
     Serial.print(status.is_doorShut);
+    Serial.print("\n");
     Serial.print("\n");
   }
 }
@@ -43,8 +60,13 @@ void loop()
 {
   // put your main code here, to run repeatedly:
   pacer_wait();
-  status = update(status);
-  sensor_serial();
+  status = updateSensor(status);
+  if (status.is_doorShut == true) {
+    out.relay1 = true;
+  }
+  updateOutput(out);
+  output_serial();
+
   
 }
 

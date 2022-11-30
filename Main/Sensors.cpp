@@ -32,7 +32,7 @@ static bool doors_shut(void)
   return (digitalRead(PROX) == HIGH);
 }
 
-status_t update(status_t status)
+status_t updateSensor(status_t status)
 {
   status.error = error();
   status.is_doorShut = doors_shut();
