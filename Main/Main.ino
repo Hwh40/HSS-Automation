@@ -14,11 +14,14 @@
 
 #define PACER_FREQUENCY 500
 
+int equilibrium;
+
+
 void setup() 
 {
   // put your setup code here, to run once:
   Serial.begin(9600);
-  callibrate();
+  equilibrium = callibrate();
   pacer_init(PACER_FREQUENCY);
   sensor_init();
   output_init();
@@ -29,4 +32,5 @@ void loop()
   // put your main code here, to run repeatedly:
   pacer_wait();
   light_on();
+  Serial.write(equilibrium);
 }

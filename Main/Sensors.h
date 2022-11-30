@@ -3,12 +3,14 @@
 
 #include <Arduino.h>
 
+typedef struct {
+  uint8_t error;
+  bool is_doorShut;
+} status_t;
+
 void sensor_init(void);
 
-void callibrate(void);
+int callibrate(void);
 
-int error(void);
-
-bool doors_shut(void);
 
 #endif

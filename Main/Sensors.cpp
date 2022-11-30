@@ -14,18 +14,28 @@ void sensor_init(void)
   pinMode(ADJ, INPUT);
 }
 
-void callibrate(void)
+int callibrate(void)
 {
   //Finds the initial equilibrium angle of the paddle
   equilibrium = analogRead(POT);
+  return equilibrium;
 }
 
-int error(void)
+static int error(void)
 {
   return abs(equilibrium - analogRead(POT));
 }
 
-bool doors_shut(void)
+static bool doors_shut(void)
 {
   return (digitalRead(PROX) == HIGH);
 }
+
+void update(status_t status)
+{
+  status.error = error();
+  status.is_doorShut = doors_shut();
+}
+
+
+
