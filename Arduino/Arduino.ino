@@ -8,6 +8,7 @@
 */
 
 #include <stdint.h>
+#include "Pacer.h"
 
 int R1 = 0;
 int R2 = 1;
@@ -21,32 +22,14 @@ int LIGHT = 4;
 int ADJ = 14;
 
 static int equilibrium;
-static uint8_t PERIOD;
 
 #define PACER_FREQUENCY 500
-#define FREQ 15625
+
 
 void callibrate(void)
 {
   //Finds the initial equilibrium angle of the paddle
   equilibrium = analogRead(POT);
-}
-
-void pacer_init(uint8_t pacer)
-{
-  PERIOD = FREQ / pacer;
-  TCNT1 = 0x00;
-  TCCR1C = 0x00;
-  TCCR1B = 0x05;
-  TCCR1A = 0x00;
-}
-
-void pacer_wait(void)
-{
-  while (TCNT1 < PERIOD) {
-    continue;
-  }
-  TCNT1 = 0;
 }
 
 int error(void)
