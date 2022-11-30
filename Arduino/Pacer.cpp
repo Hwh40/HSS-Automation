@@ -1,6 +1,7 @@
 #include "Pacer.h"
 #include <stdint.h>
 
+
 static uint8_t PERIOD;
 
 void pacer_init(uint8_t pacer)
