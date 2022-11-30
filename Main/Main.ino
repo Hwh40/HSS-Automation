@@ -13,9 +13,12 @@
 #include "Sensors.h"
 #include "Output.h"
 
-#define PACER_FREQUENCY 500
+#define PACER_FREQUENCY 10
+#define THRESHOLD 64
 
 int equilibrium;
+bool is_on;
+bool is_running;
 
 status_t status;
 output_t out = {0,0,0,0,0,0};
@@ -29,6 +32,8 @@ void setup()
   pacer_init(PACER_FREQUENCY);
   sensor_init();
   output_init();
+  is_on = false;
+  is_running = false;
 }
 
 void output_serial(void)
@@ -56,18 +61,37 @@ void output_serial(void)
   }
 }
 
+void check_plug(void)
+{
+  if (status.is_doorShut == true && !is_on) {
+    is_on = true;
+  }
+  if (!status.is_doorShut == true && !is_running && is_on) {
+    is_running = true;
+  }
+  if (status.is_doorShut == true && is_running) {
+    out.relay1 = true;
+  }
+}
+
+void check_flow(void)
+{
+  if (status.error > THRESHOLD) {
+    out.relay2 = true;
+  }
+}
+
 void loop()
 {
   // put your main code here, to run repeatedly:
   pacer_wait();
   status = updateSensor(status);
-  if (status.is_doorShut == true) {
-    out.relay1 = true;
-  }
+  check_plug();
+  check_flow();
+  Serial.print(status.error);
+  Serial.print('\n');
   updateOutput(out);
-  output_serial();
-
-  
+  output_serial();  
 }
 
 
