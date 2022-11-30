@@ -16,3 +16,13 @@ void output_init(void)
   pinMode(D2, OUTPUT);
   pinMode(LIGHT, OUTPUT);
 }
+
+void light_on(void)
+{
+  digitalWrite(LIGHT, HIGH);
+}
+
+void light_off(void)
+{
+  digitalWrite(LIGHT, LOW);
+}

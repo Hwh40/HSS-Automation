@@ -28,5 +28,5 @@ void loop()
 {
   // put your main code here, to run repeatedly:
   pacer_wait();
-
+  light_on();
 }
