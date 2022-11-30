@@ -1,4 +1,5 @@
 #include "Sensors.h"
+#include <stdint.h>
 
 static int equilibrium;
 static int PROX = 3;
@@ -21,7 +22,7 @@ int callibrate(void)
   return equilibrium;
 }
 
-static int error(void)
+static uint16_t error(void)
 {
   return abs(equilibrium - analogRead(POT));
 }
@@ -31,10 +32,11 @@ static bool doors_shut(void)
   return (digitalRead(PROX) == HIGH);
 }
 
-void update(status_t status)
+status_t update(status_t status)
 {
   status.error = error();
   status.is_doorShut = doors_shut();
+  return status;
 }
 
 

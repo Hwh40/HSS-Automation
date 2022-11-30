@@ -16,6 +16,8 @@
 
 int equilibrium;
 
+status_t status;
+
 
 void setup() 
 {
@@ -27,12 +29,23 @@ void setup()
   output_init();
 }
 
+void sensor_serial(void)
+{
+  if (Serial.read() == '\n') {
+    Serial.print(status.error);
+    Serial.print("\n");
+    Serial.print(status.is_doorShut);
+    Serial.print("\n");
+  }
+}
+
 void loop()
 {
   // put your main code here, to run repeatedly:
   pacer_wait();
-  light_on();
-  Serial.write(equilibrium);
+  status = update(status);
+  sensor_serial();
+  
 }
 
 
