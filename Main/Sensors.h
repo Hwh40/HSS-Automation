@@ -11,7 +11,7 @@ typedef struct {
 
 void sensor_init(void);
 
-int callibrate(void);
+void callibrate(void);
 
 status_t updateSensor(status_t);
 

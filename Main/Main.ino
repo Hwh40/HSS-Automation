@@ -9,18 +9,16 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include <math.h>
 #include "Pacer.h"
 #include "Sensors.h"
 #include "Output.h"
 
 #define PACER_FREQUENCY 10
-#define THRESHOLD 64
+#define THRESHOLD_ANGLE 22.5
 
-int equilibrium;
 bool is_on;
-bool is_running;
-
-status_t status;
+status_t status = {0,0};
 output_t out = {0,0,0,0,0,0};
 
 
@@ -28,12 +26,11 @@ void setup()
 {
   // put your setup code here, to run once:
   Serial.begin(9600);
-  equilibrium = callibrate();
+  callibrate();
   pacer_init(PACER_FREQUENCY);
   sensor_init();
   output_init();
   is_on = false;
-  is_running = false;
 }
 
 void output_serial(void)
@@ -63,20 +60,17 @@ void output_serial(void)
 
 void check_plug(void)
 {
-  if (status.is_doorShut == true && !is_on) {
+  if (status.is_doorShut == false && !is_on) {
     is_on = true;
   }
-  if (!status.is_doorShut == true && !is_running && is_on) {
-    is_running = true;
-  }
-  if (status.is_doorShut == true && is_running) {
+  if (status.is_doorShut == true && is_on) {
     out.relay1 = true;
   }
 }
 
 void check_flow(void)
 {
-  if (status.error > THRESHOLD) {
+  if (status.error > ((1024.0 / 360.0) * THRESHOLD_ANGLE)) {
     out.relay2 = true;
   }
 }
@@ -88,8 +82,6 @@ void loop()
   status = updateSensor(status);
   check_plug();
   check_flow();
-  Serial.print(status.error);
-  Serial.print('\n');
   updateOutput(out);
   output_serial();  
 }

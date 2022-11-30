@@ -15,11 +15,10 @@ void sensor_init(void)
   pinMode(ADJ, INPUT);
 }
 
-int callibrate(void)
+void callibrate(void)
 {
   //Finds the initial equilibrium angle of the paddle
   equilibrium = analogRead(POT);
-  return equilibrium;
 }
 
 static uint16_t error(void)
