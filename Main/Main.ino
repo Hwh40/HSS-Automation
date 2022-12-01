@@ -15,9 +15,8 @@
 #include "Output.h"
 
 #define PACER_FREQUENCY 10
-#define THRESHOLD_ANGLE 22.5
 
-bool is_on;
+
 status_t status = {0,0};
 output_t out = {0,0,0,0,0,0};
 
@@ -30,7 +29,6 @@ void setup()
   pacer_init(PACER_FREQUENCY);
   sensor_init();
   output_init();
-  is_on = false;
 }
 
 void output_serial(void)
@@ -58,30 +56,14 @@ void output_serial(void)
   }
 }
 
-void check_plug(void)
-{
-  if (status.is_doorShut == false && !is_on) {
-    is_on = true;
-  }
-  if (status.is_doorShut == true && is_on) {
-    out.relay1 = true;
-  }
-}
-
-void check_flow(void)
-{
-  if (status.error > ((1024.0 / 360.0) * THRESHOLD_ANGLE)) {
-    out.relay2 = true;
-  }
-}
 
 void loop()
 {
   // put your main code here, to run repeatedly:
   pacer_wait();
   status = updateSensor(status);
-  check_plug();
-  check_flow();
+  check_plug(status, &out);
+  check_flow(status, &out);
   updateOutput(out);
   output_serial();  
 }
