@@ -1,3 +1,10 @@
+/*
+# File: Sensors.h
+# Author: Henry Hall
+# Date: 30/11/2022
+# Description: Header file for the sensors source file. 
+*/
+
 #ifndef SENSORS_H
 #define SENSORS_H
 
@@ -14,7 +21,6 @@ typedef struct {
 } status_t;
 
 void sensor_init(void);
-
 
 void updateSensor(status_t*);
 

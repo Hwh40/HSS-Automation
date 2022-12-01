@@ -1,3 +1,11 @@
+/*
+# File: Output.cpp
+# Author: Henry Hall
+# Date: 30/11/2022
+# Description: Affects the output pins dependant on various inputs.
+  Outputs include 3 relays, 2 digital outputs, and an on PCB LED. 
+*/
+
 #include "Output.h"
 
 static int R1 = 0;
@@ -9,6 +17,7 @@ static int LIGHT = 4;
 
 void output_init(void)
 {
+  //Initialises output pins
   pinMode(R1, OUTPUT);
   pinMode(R2, OUTPUT);
   pinMode(R3, OUTPUT);
@@ -17,18 +26,9 @@ void output_init(void)
   pinMode(LIGHT, OUTPUT);
 }
 
-void light_on(void)
-{
-  digitalWrite(LIGHT, HIGH);
-}
-
-void light_off(void)
-{
-  digitalWrite(LIGHT, LOW);
-}
-
 void updateOutput(output_t out)
 {
+  //Updates pins based on an output struct
   digitalWrite(R1, out.relay1);
   digitalWrite(R2, out.relay2);
   digitalWrite(R3, out.relay3);

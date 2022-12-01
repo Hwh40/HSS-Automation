@@ -1,5 +1,5 @@
 /*
-# File: HSS Automation.INO
+# File: Main.INO
 # Author: Henry Hall
 # Date: 30/11/2022
 # Description: Provides processing and control of sensor data 
@@ -16,14 +16,12 @@
 
 #define PACER_FREQUENCY 10
 
-
 status_t status = {0,0};
 output_t out = {0,0,0,0,0,0};
 
-
 void setup() 
 {
-  // put your setup code here, to run once:
+  //Initialise sensors and outputs
   Serial.begin(9600);
   pacer_init(PACER_FREQUENCY);
   sensor_init();
@@ -32,6 +30,7 @@ void setup()
 
 void output_serial(void)
 {
+  //Outputs the sensor and output structs to the serial monitor
   if (Serial.read() == '\n') {
     Serial.print("Outputs:\n");
     Serial.print(out.relay1);
@@ -55,10 +54,9 @@ void output_serial(void)
   }
 }
 
-
 void loop()
 {
-  // put your main code here, to run repeatedly:
+  //Updates sensors, checks against conditions, and updates outputs at a predefined frequency
   pacer_wait();
   updateSensor(&status);
   check_plug(status, &out);

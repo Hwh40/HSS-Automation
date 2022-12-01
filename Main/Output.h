@@ -1,3 +1,10 @@
+/*
+# File: Output.h
+# Author: Henry Hall
+# Date: 30/11/2022
+# Description: The header file for the output source file.
+*/
+
 #ifndef OUTPUT_H
 #define OUTPUT_H
 
@@ -13,10 +20,6 @@ typedef struct {
 } output_t;
 
 void output_init(void);
-
-void light_on(void);
-
-void light_off(void);
 
 void updateOutput(output_t out);
 
