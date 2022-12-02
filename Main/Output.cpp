@@ -36,3 +36,13 @@ void updateOutput(output_t out)
   digitalWrite(D2, out.digital2);
   digitalWrite(LIGHT, out.light);
 }
+
+void led_flash(void)
+{
+  for (size_t i = 0; i < 5; i++) {
+    digitalWrite(LIGHT, HIGH);
+    delay(100);
+    digitalWrite(LIGHT, LOW);
+    delay(100);
+  }
+}

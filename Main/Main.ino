@@ -10,6 +10,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <math.h>
+#include <avr/wdt.h>
 #include "Pacer.h"
 #include "Sensors.h"
 #include "Output.h"
@@ -26,6 +27,10 @@ void setup()
   pacer_init(PACER_FREQUENCY);
   sensor_init();
   output_init();
+  wdt_disable();
+  delay(3000);
+  wdt_enable(WDTO_250MS);
+  led_flash();
 }
 
 void output_serial(void)
@@ -63,6 +68,7 @@ void loop()
   check_flow(status, &out);
   updateOutput(out);
   output_serial();  
+  wdt_reset();
 }
 
 
