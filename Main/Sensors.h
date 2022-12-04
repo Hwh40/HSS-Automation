@@ -28,4 +28,6 @@ void check_plug(status_t status, output_t* out);
 
 void check_flow(status_t status, output_t* out);
 
+void output_serial(output_t  out, status_t status);
+
 #endif

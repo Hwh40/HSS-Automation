@@ -70,3 +70,29 @@ void check_flow(status_t status, output_t* out)
     out->relay2 = true;
   }
 }
+
+void output_serial(output_t  out, status_t status)
+{
+  //Outputs the sensor and output structs to the serial monitor
+  if (Serial.read() == '\n') {
+    Serial.print("Outputs:\n");
+    Serial.print(out.relay1);
+    Serial.print("\n");
+    Serial.print(out.relay2);
+    Serial.print("\n");
+    Serial.print(out.relay3);
+    Serial.print("\n");
+    Serial.print(out.digital1);
+    Serial.print("\n");
+    Serial.print(out.digital2);
+    Serial.print("\n");
+    Serial.print(out.light);
+    Serial.print("\n");
+    Serial.print("Sensors:\n");
+    Serial.print(status.error);
+    Serial.print("\n");
+    Serial.print(status.is_doorShut);
+    Serial.print("\n");
+    Serial.print("\n");
+  }
+}

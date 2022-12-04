@@ -7,6 +7,7 @@
 */
 
 #include "Output.h"
+#include "Sensors.h"
 
 static int R1 = 0;
 static int R2 = 1;
@@ -46,3 +47,5 @@ void led_flash(void)
     delay(100);
   }
 }
+
+

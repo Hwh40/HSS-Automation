@@ -33,32 +33,6 @@ void setup()
   led_flash();
 }
 
-void output_serial(void)
-{
-  //Outputs the sensor and output structs to the serial monitor
-  if (Serial.read() == '\n') {
-    Serial.print("Outputs:\n");
-    Serial.print(out.relay1);
-    Serial.print("\n");
-    Serial.print(out.relay2);
-    Serial.print("\n");
-    Serial.print(out.relay3);
-    Serial.print("\n");
-    Serial.print(out.digital1);
-    Serial.print("\n");
-    Serial.print(out.digital2);
-    Serial.print("\n");
-    Serial.print(out.light);
-    Serial.print("\n");
-    Serial.print("Sensors:\n");
-    Serial.print(status.error);
-    Serial.print("\n");
-    Serial.print(status.is_doorShut);
-    Serial.print("\n");
-    Serial.print("\n");
-  }
-}
-
 void loop()
 {
   //Updates sensors, checks against conditions, and updates outputs at a predefined frequency
@@ -67,7 +41,7 @@ void loop()
   check_plug(status, &out);
   check_flow(status, &out);
   updateOutput(out);
-  output_serial();  
+  output_serial(out, status);  
   wdt_reset();
 }
 
