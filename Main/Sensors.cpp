@@ -93,6 +93,7 @@ void output_serial(output_t  out, status_t status)
     Serial.print("\n");
     Serial.print(status.is_doorShut);
     Serial.print("\n");
+    Serial.print(equilibrium);
     Serial.print("\n");
   }
 }

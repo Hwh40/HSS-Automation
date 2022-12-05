@@ -15,34 +15,31 @@
 #include "Sensors.h"
 #include "Output.h"
 
-#define PACER_FREQUENCY 10
+#define PACER_FREQUENCY 100
 
-status_t status = {0,0};
-output_t out = {0,0,0,0,0,0};
+status_t status = {0, 0};
+output_t out = {0, 0, 0, 0, 0, 0};
 
-void setup() 
-{
+void setup() {
   //Initialise sensors and outputs
   Serial.begin(9600);
   pacer_init(PACER_FREQUENCY);
   sensor_init();
   output_init();
   wdt_disable();
+  
   delay(3000);
   wdt_enable(WDTO_250MS);
-  led_flash();
+  //led_flash();
 }
 
-void loop()
-{
+void loop() {
   //Updates sensors, checks against conditions, and updates outputs at a predefined frequency
   pacer_wait();
   updateSensor(&status);
   check_plug(status, &out);
   check_flow(status, &out);
   updateOutput(out);
-  output_serial(out, status);  
+  output_serial(out, status);
   wdt_reset();
 }
-
-
