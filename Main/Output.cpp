@@ -8,6 +8,7 @@
 
 #include "Output.h"
 #include "Sensors.h"
+#include <avr/wdt.h>
 
 static int R1 = 0;
 static int R2 = 1;
@@ -41,7 +42,9 @@ void updateOutput(output_t out)
 void led_flash(void)
 {
   for (size_t i = 0; i < 5; i++) {
+    wdt_reset();
     digitalWrite(LIGHT, HIGH);
+    Serial.print("...\n");
     delay(100);
     digitalWrite(LIGHT, LOW);
     delay(100);

@@ -13,8 +13,7 @@
 #include <stdbool.h>
 #include "Output.h"
 
-#define THRESHOLD_ANGLE 22.5
-
+#define THRESHOLD_ANGLE 60
 typedef struct {
   uint16_t error;
   bool is_doorShut;

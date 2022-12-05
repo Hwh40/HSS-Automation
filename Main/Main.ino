@@ -23,14 +23,15 @@ output_t out = {0, 0, 0, 0, 0, 0};
 void setup() {
   //Initialise sensors and outputs
   Serial.begin(9600);
+  Serial.print("Callibrating...\n");
   pacer_init(PACER_FREQUENCY);
   sensor_init();
   output_init();
   wdt_disable();
-  
   delay(3000);
   wdt_enable(WDTO_250MS);
-  //led_flash();
+  led_flash();
+  Serial.print("Callibration finished\n");
 }
 
 void loop() {
