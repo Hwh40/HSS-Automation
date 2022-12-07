@@ -25,20 +25,29 @@ void transmit(char data)
   while(!(SPSR & (1 << SPIF)));
 }
 
-
 void setup() {
   //Makes a copy of EEPROM memory and transmits via SPI
+  pinMode(4, OUTPUT);
+  digitalWrite(4, HIGH);
   SPI_init();
   for (int i = 0; i < 255; i++) {
     data[i] = EEPROM.read(i);
   }
+  digitalWrite(4, LOW);
+  delay(100);
+  digitalWrite(4, HIGH);
   for (int i =0; i < 255; i++) {
     PORTB &= ~(1 << 2);
     transmit(data[i]);
     PORTB |= (1 << 2);
   }
+  for (int i = 0; i < 3; i++) {
+    digitalWrite(4, HIGH);
+    delay(100);
+    digitalWrite(4, LOW);
+    delay(100);
+  }
 }
 
 void loop() {
-  
 }
