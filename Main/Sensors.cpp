@@ -8,6 +8,7 @@
 
 #include "Sensors.h"
 #include "Output.h"
+#include <math.h>
 #include <stdint.h>
 
 static int equilibrium;
@@ -33,6 +34,22 @@ static bool doors_shut(void)
 {
   //Returns true if the doors are shut
   return (digitalRead(PROX) == HIGH);
+}
+
+static double degree_toBits()
+{
+  double num;
+  double coef = 5 / 3072;
+  num = sin(THRESHOLD_ANGLE) / coef;
+  return num;
+}
+
+double bits_toDegree(int n)
+{
+  double num;
+  double coef = 5 / 3072;
+  num = asin(coef * n);
+  return num
 }
 
 void sensor_init(void)
@@ -66,34 +83,9 @@ void check_plug(status_t status, output_t* out)
 void check_flow(status_t status, output_t* out)
 {
   //From a status struct checks to see if the flow has exceded the threshold and updates the out struct
-  if (status.error > ((1024.0 / 360.0) * THRESHOLD_ANGLE)) {
+  if (status.error > degree_toBits())) {
     out->relay2 = true;
   }
 }
 
-void output_serial(output_t  out, status_t status)
-{
-  //Outputs the sensor and output structs to the serial monitor
-  if (Serial.read() == '\n') {
-    Serial.print("Outputs:\n");
-    Serial.print(out.relay1);
-    Serial.print("\n");
-    Serial.print(out.relay2);
-    Serial.print("\n");
-    Serial.print(out.relay3);
-    Serial.print("\n");
-    Serial.print(out.digital1);
-    Serial.print("\n");
-    Serial.print(out.digital2);
-    Serial.print("\n");
-    Serial.print(out.light);
-    Serial.print("\n");
-    Serial.print("Sensors:\n");
-    Serial.print(status.error);
-    Serial.print("\n");
-    Serial.print(status.is_doorShut);
-    Serial.print("\n");
-    Serial.print(equilibrium);
-    Serial.print("\n");
-  }
-}
+

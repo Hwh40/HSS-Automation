@@ -9,7 +9,6 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-#include <math.h>
 #include <avr/wdt.h>
 #include "Pacer.h"
 #include "Sensors.h"
@@ -41,6 +40,5 @@ void loop() {
   check_plug(status, &out);
   check_flow(status, &out);
   updateOutput(out);
-  output_serial(out, status);
   wdt_reset();
 }

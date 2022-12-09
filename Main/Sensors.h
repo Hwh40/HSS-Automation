@@ -14,6 +14,7 @@
 #include "Output.h"
 
 #define THRESHOLD_ANGLE 60
+
 typedef struct {
   uint16_t error;
   bool is_doorShut;
@@ -23,10 +24,12 @@ void sensor_init(void);
 
 void updateSensor(status_t*);
 
-void check_plug(status_t status, output_t* out);
+void check_plug(status_t, output_t*);
 
-void check_flow(status_t status, output_t* out);
+void check_flow(status_t, output_t*);
 
-void output_serial(output_t  out, status_t status);
+double bits_toDegree(int);
+
+
 
 #endif

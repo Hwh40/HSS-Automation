@@ -34,16 +34,26 @@ void setup() {
   }
 }
 
+
+
 void loop() {
   //Receives an SPI transmission of a controllers EEPROM memory and prints it to a serial monitor
-  if (PINB & (1 << 2)) {
-    data[i] = receive();
-    Serial.print(i);
-    i++;
+  if (Serial.read() == '1') {
+    if (PINB & !(1 << 2)) {
+      data[i] = receive();
+      Serial.print(i);
+      i++;
+    }
+    if (i > 255) {
+      for (size_t j = 0; i < 255; i++) {
+        Serial.print(data[j]);
+      }
+    }
   }
-  if (i > 255) {
-    for (size_t j = 0; i < 255; i++) {
-      Serial.print(data[j]);
+  if (Serial.read() = '2') {
+    if (PINB & !(1 << 2)) {
+      int data = receive();
+      Serial.print(int);
     }
   }
 }
