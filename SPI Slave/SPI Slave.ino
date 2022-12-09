@@ -50,10 +50,10 @@ void loop() {
       }
     }
   }
-  if (Serial.read() = '2') {
+  if (Serial.read() == '2') {
     if (PINB & !(1 << 2)) {
       int data = receive();
-      Serial.print(int);
+      Serial.print(data);
     }
   }
 }

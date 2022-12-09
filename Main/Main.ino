@@ -13,6 +13,7 @@
 #include "Pacer.h"
 #include "Sensors.h"
 #include "Output.h"
+#include "EEPROM.h"
 
 #define PACER_FREQUENCY 100
 
@@ -40,5 +41,6 @@ void loop() {
   check_plug(status, &out);
   check_flow(status, &out);
   updateOutput(out);
+  SPI_send(status);
   wdt_reset();
 }

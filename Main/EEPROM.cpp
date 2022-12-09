@@ -11,7 +11,7 @@
 #include <stdint.h>
 #include <EEPROM.h>
 
-static int8_t address = 0
+static int8_t address = 0;
 
 static void SPI_init()
 {
@@ -43,7 +43,6 @@ void SPI_send(status_t status)
   PORTB &= ~(1 << 2);
   transmit(status.error);
   PORTB |= (1 << 2);
-  delay(100);
   PORTB &= ~(1 << 2);
   transmit(status.is_doorShut);
   PORTB |= (1 << 2);
