@@ -39,16 +39,14 @@ static bool doors_shut(void)
 static double degree_toBits()
 {
   double num;
-  double coef = 5 / 3072;
-  num = sin(THRESHOLD_ANGLE) / coef;
+  num = THRESHOLD_ANGLE * 1024.0 / 360.0
   return num;
 }
 
 double bits_toDegree(int n)
 {
   double num;
-  double coef = 5 / 3072;
-  num = asin(coef * n);
+  num = n * 360.0 / 1024.0
   return num;
 }
 
