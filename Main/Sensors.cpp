@@ -36,17 +36,17 @@ static bool doors_shut(void)
   return (digitalRead(PROX) == HIGH);
 }
 
-static double degree_toBits()
+static double degree_toBits(void)
 {
   double num;
-  num = THRESHOLD_ANGLE * 1024.0 / 360.0
+  num = (THRESHOLD_ANGLE * 1024.0 / 360.0);
   return num;
 }
 
 double bits_toDegree(int n)
 {
   double num;
-  num = n * 360.0 / 1024.0
+  num = n * 360.0 / 1024.0;
   return num;
 }
 
@@ -74,7 +74,7 @@ void check_plug(status_t status, output_t* out)
     is_on = true;
   }
   if (status.is_doorShut == true && is_on) {
-    out->relay1 = true;
+    out->light = true;
   }
 }
 
@@ -82,7 +82,7 @@ void check_flow(status_t status, output_t* out)
 {
   //From a status struct checks to see if the flow has exceded the threshold and updates the out struct
   if (status.error > degree_toBits()) {
-    out->relay2 = true;
+    out->light = true;
   }
 }
 

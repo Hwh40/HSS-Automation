@@ -11,20 +11,22 @@
 #include <stdint.h>
 #include <EEPROM.h>
 
-static int8_t address = 0;
+static uint8_t address = 0;
 
-static void SPI_init()
+void SPI_init(void)
 {
   //Initialises SPI and DDR 
   DDRB = 0x2C;
   SPCR = 0x51;
 }
 
-static void transmit(char data)
+static void transmit(uint8_t data)
 {
   //Puts 8 bits into the data register for SPI
   SPDR = data;
-  while(!(SPSR & (1 << SPIF)));
+  while((SPSR & (1 << 7)) == 0) {
+    continue;
+  }
 }
 
 void Sensor_toEEPROM(status_t status) 
@@ -40,8 +42,11 @@ void Sensor_toEEPROM(status_t status)
 
 void SPI_send(status_t status)
 {
-  PORTB &= ~(1 << 2);
-  transmit(status.error);
-  PORTB |= (1 << 2);
+    PORTB &= ~(1<<2);
+  transmit(address);
+  PORTB |= (1<<2);
+  address++;
+  //delay(500);
+
 }
  

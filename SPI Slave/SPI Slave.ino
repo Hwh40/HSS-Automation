@@ -7,8 +7,8 @@
   and prints to the serial port. 
 */
 
-int data[255];
-size_t i = 0;
+#include <stdint.h>
+uint8_t data = 0xFF;
 
 void SPI_init(void)
 {
@@ -17,39 +17,30 @@ void SPI_init(void)
   SPCR = 0x40;
 }
 
-char receive(void)
+uint8_t receive(void)
 {
   //Returns 8 bits from an SPI transmission
-  while (!(SPSR & (1 << SPIF)));
+  SPDR = 0xFF;
+  while (!(SPSR & (1 << 7))) {
+    continue;
+  }
   return SPDR;
 }
 
 void setup() {
   //Initialisiation
+  DDRB |= (1<<2);
   SPI_init();
   Serial.begin(9600);
 }
 
-
-
 void loop() {
   //Receives an SPI transmission of a controllers EEPROM memory and prints it to a serial monitor
-  if (Serial.read() == '1') {
-    if (PINB & !(1 << 2)) {
-      data[i] = receive();
-      Serial.print(i);
-      i++;
-    }
-    if (i > 255) {
-      for (size_t j = 0; i < 255; i++) {
-        Serial.print(data[j]);
-      }
-    }
+  if (/*(PINB & (1<<2)) == 0*/ 1) {
+    data = receive();
+    Serial.print(data);
+    Serial.println();
   }
-  if (Serial.read() == '2') {
-    if (PINB & !(1 << 2)) {
-      int data = receive();
-      Serial.print(data);
-    }
-  }
+
+
 }

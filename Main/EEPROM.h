@@ -17,5 +17,5 @@ void Sensor_toEEPROM(status_t);
 
 void SPI_send(status_t);  
 
-
+void SPI_init(void);
 #endif

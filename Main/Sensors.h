@@ -13,7 +13,7 @@
 #include <stdbool.h>
 #include "Output.h"
 
-#define THRESHOLD_ANGLE 60
+#define THRESHOLD_ANGLE 200
 
 typedef struct {
   uint16_t error;

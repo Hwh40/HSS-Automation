@@ -8,8 +8,10 @@
 */
 
 #include <EEPROM.h>
+#include <stdint.h>
 
 int data[255]; 
+uint8_t i = 0;
 
 void SPI_init()
 {
@@ -18,11 +20,13 @@ void SPI_init()
   SPCR = 0x51;
 }
 
-void transmit(char data)
+void transmit(uint8_t data)
 {
   //Puts 8 bits into the data register for SPI
   SPDR = data;
-  while(!(SPSR & (1 << SPIF)));
+  while((SPSR & (1 << 7)) == 0) {
+    continue;
+  }
 }
 
 void setup() {
@@ -30,7 +34,8 @@ void setup() {
   pinMode(4, OUTPUT);
   digitalWrite(4, HIGH);
   SPI_init();
-  for (int i = 0; i < 255; i++) {
+  
+  /*for (int i = 0; i < 255; i++) {
     data[i] = EEPROM.read(i);
   }
   digitalWrite(4, LOW);
@@ -47,7 +52,15 @@ void setup() {
     digitalWrite(4, LOW);
     delay(100);
   }
+  */
 }
 
 void loop() {
+  PORTB &= ~(1<<2);
+  transmit(i);
+  PORTB |= (1<<2);
+  i++;
+  delay(500);
+
+
 }
