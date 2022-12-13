@@ -32,6 +32,7 @@ static void transmit(uint16_t data)
 
 void Sensor_toEEPROM(status_t status) 
 {
+  //Stores sensor data in EEPROM memory
   if (address < 255){
     uint8_t byte1 = status.error >> 8;
     uint8_t byte2 = status.error & 0x00FF;
@@ -46,6 +47,7 @@ void Sensor_toEEPROM(status_t status)
 
 void SPI_send(status_t status)
 {
+  //Sends SPI data via SPI
   uint8_t byte1 = status.error >> 8;
   uint8_t byte2 = status.error & 0x00FF;
   

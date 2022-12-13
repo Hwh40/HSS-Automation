@@ -38,8 +38,6 @@ void setup() {
 
 void loop() {
   //Receives an SPI transmission and prints it to a serial monitor
-
-
     data1 = receive();
     data2 = receive();
     data3 = receive();
@@ -49,9 +47,4 @@ void loop() {
     Serial.print("P ");
     Serial.print(data3);
     Serial.println();
-  
-  
-
-
-
 }
