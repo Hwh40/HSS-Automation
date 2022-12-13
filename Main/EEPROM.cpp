@@ -46,7 +46,5 @@ void SPI_send(status_t status)
   transmit(address);
   PORTB |= (1<<2);
   address++;
-  //delay(500);
-
 }
  

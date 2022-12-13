@@ -15,8 +15,9 @@
 #include "Output.h"
 #include "EEPROM.h"
 
-#define PACER_FREQUENCY 2
+#define PACER_FREQUENCY 100
 
+uint16_t SPI_C = 0; 
 status_t status = {0, 0};
 output_t out = {0, 0, 0, 0, 0, 0};
 
@@ -36,10 +37,16 @@ void setup() {
 void loop() {
   //Updates sensors, checks against conditions, and updates outputs at a predefined frequency
   pacer_wait();
-  /*updateSensor(&status);
-  check_plug(status, &out);
-  check_flow(status, &out);
-  updateOutput(out);*/
-  SPI_send(status);
+  if (SPI_C != 50) {
+    updateSensor(&status);
+    check_plug(status, &out);
+    check_flow(status, &out);
+    updateOutput(out);
+  }
+  if (SPI_C == 50) {
+    SPI_send(status);
+    SPI_C = 0;
+  }
+  SPI_C++;
   wdt_reset();
 }
