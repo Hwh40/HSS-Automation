@@ -38,26 +38,20 @@ void setup() {
 
 void loop() {
   //Receives an SPI transmission and prints it to a serial monitor
-  if (Serial.read() == '1') {
-    while(1) {
-      data1 = receive();
-      data2 = receive();
-      data3 = receive();
-      Serial.print("F ");
-      Serial.print((data1 * 256 + data2));
-      Serial.println();
-      Serial.print("P ");
-      Serial.print(data3);
-      Serial.println();
-    }
-  }
-  else if (Serial.read() == '2') {
-    while (1) {
-      data1 = receive();
-      Serial.print(data1);
-      Serial.println();
-    }
-  }
+
+
+    data1 = receive();
+    data2 = receive();
+    data3 = receive();
+    Serial.print("F ");
+    Serial.print((data1 * 256 + data2));
+    Serial.println();
+    Serial.print("P ");
+    Serial.print(data3);
+    Serial.println();
+  
+  
+
 
 
 }
