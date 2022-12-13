@@ -20,7 +20,7 @@ void SPI_init(void)
   SPCR = 0x51;
 }
 
-static void transmit(uint8_t data)
+static void transmit(uint16_t data)
 {
   //Puts 8 bits into the data register for SPI
   SPDR = data;
@@ -29,11 +29,15 @@ static void transmit(uint8_t data)
   }
 }
 
+
 void Sensor_toEEPROM(status_t status) 
 {
   if (address < 255){
-    EEPROM.write(status.error, address);
+    uint8_t byte1 = status.error >> 8;
+    uint8_t byte2 = status.error & 0x00FF;
+    EEPROM.write(byte1, address);
     address++;
+    EEPROM.write(byte2, address);
     address++;
     EEPROM.write(status.is_doorShut, address);
     address++;
@@ -42,8 +46,13 @@ void Sensor_toEEPROM(status_t status)
 
 void SPI_send(status_t status)
 {
+  uint8_t byte1 = status.error >> 8;
+  uint8_t byte2 = status.error & 0x00FF;
+  
   PORTB &= ~(1<<2);
-  transmit(status.error);
+  transmit(byte1);
+  transmit(byte2);
+  transmit(status.is_doorShut);
   PORTB |= (1<<2);
 }
  

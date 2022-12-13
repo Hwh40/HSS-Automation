@@ -44,7 +44,6 @@ void led_flash(void)
   for (size_t i = 0; i < 5; i++) {
     wdt_reset();
     digitalWrite(LIGHT, HIGH);
-    Serial.print("...\n");
     delay(100);
     digitalWrite(LIGHT, LOW);
     delay(100);

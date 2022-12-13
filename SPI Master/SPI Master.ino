@@ -34,33 +34,19 @@ void setup() {
   pinMode(4, OUTPUT);
   digitalWrite(4, HIGH);
   SPI_init();
-  
-  /*for (int i = 0; i < 255; i++) {
+  for (int i = 0; i < 255; i++) {
     data[i] = EEPROM.read(i);
   }
-  digitalWrite(4, LOW);
-  delay(100);
-  digitalWrite(4, HIGH);
   for (int i =0; i < 255; i++) {
+    digitalWrite(4, LOW);
     PORTB &= ~(1 << 2);
     transmit(data[i]);
     PORTB |= (1 << 2);
-  }
-  for (int i = 0; i < 3; i++) {
+    delay(250);
     digitalWrite(4, HIGH);
-    delay(100);
-    digitalWrite(4, LOW);
-    delay(100);
-  }
-  */
+    delay(250);
+  }  
 }
 
 void loop() {
-  PORTB &= ~(1<<2);
-  transmit(i);
-  PORTB |= (1<<2);
-  i++;
-  delay(500);
-
-
 }
