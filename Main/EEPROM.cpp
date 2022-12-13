@@ -42,9 +42,8 @@ void Sensor_toEEPROM(status_t status)
 
 void SPI_send(status_t status)
 {
-    PORTB &= ~(1<<2);
-  transmit(address);
+  PORTB &= ~(1<<2);
+  transmit(status.error);
   PORTB |= (1<<2);
-  address++;
 }
  
