@@ -5,8 +5,8 @@
 # Description: Header file for the EEPROM source file. 
 */
 
-#ifndef EEPROM_H
-#define EEPROM_H
+#ifndef SPIDATA_H
+#define SPIDATA_H
 
 #include <Arduino.h>
 #include <stdint.h>

@@ -8,8 +8,9 @@
 
 #include "Sensors.h"
 #include "Output.h"
+#include "SPIDATA.h"
 #include <stdint.h>
-#include <EEPROM.h>
+
 
 static uint8_t address = 0;
 
@@ -29,6 +30,7 @@ static void transmit(uint16_t data)
   }
 }
 
+/*
 void Sensor_toEEPROM(status_t status) 
 {
   //Stores sensor data in EEPROM memory
@@ -42,7 +44,7 @@ void Sensor_toEEPROM(status_t status)
     EEPROM.write(status.is_doorShut, address);
     address++;
   }
-}
+}*/
 
 void SPI_send(status_t status)
 {

@@ -13,7 +13,7 @@
 #include "Pacer.h"
 #include "Sensors.h"
 #include "Output.h"
-#include "EEPROM.h"
+#include "SPIDATA.h"
 
 #define PACER_FREQUENCY 100
 
@@ -31,7 +31,6 @@ void setup() {
   delay(3000);
   wdt_enable(WDTO_500MS);
   led_flash();
-  SPI_send(status);
 }
 
 void loop() {
