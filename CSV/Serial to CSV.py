@@ -46,11 +46,13 @@ def open_file(filename):
 
 def convert(data):
     """Converts a list of strings into floats with the time converted to seconds"""
+    empty = []
     for i in range(0, len(data)):
         line = (data[i][0].split(':'))
-        data[i][0] = float(line[0]) * 3600 + float(line[2]) + 60 * float(line[1])
-        data[i][1] = float(data[i][1])
-    return np.array(data)
+        time = float(line[0]) * 3600 + float(line[2]) + 60 * float(line[1])            
+        empty.append([time, float(data[i][1])]) 
+    empty.sort()
+    return np.array(empty)
 
 def proccess(lines):
     """Data processing for readable form"""
