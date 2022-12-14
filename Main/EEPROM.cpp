@@ -29,7 +29,6 @@ static void transmit(uint16_t data)
   }
 }
 
-
 void Sensor_toEEPROM(status_t status) 
 {
   //Stores sensor data in EEPROM memory

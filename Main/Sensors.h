@@ -30,6 +30,4 @@ void check_flow(status_t, output_t*);
 
 double bits_toDegree(int);
 
-
-
 #endif

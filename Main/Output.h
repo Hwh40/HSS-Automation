@@ -25,6 +25,4 @@ void updateOutput(output_t out);
 
 void led_flash(void);
 
-
-
 #endif
