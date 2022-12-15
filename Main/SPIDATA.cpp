@@ -9,6 +9,7 @@
 #include "Sensors.h"
 #include "Output.h"
 #include "SPIDATA.h"
+#include <EEPROM.h>
 #include <stdint.h>
 
 
@@ -30,7 +31,6 @@ static void transmit(uint16_t data)
   }
 }
 
-/*
 void Sensor_toEEPROM(status_t status) 
 {
   //Stores sensor data in EEPROM memory
@@ -44,14 +44,13 @@ void Sensor_toEEPROM(status_t status)
     EEPROM.write(status.is_doorShut, address);
     address++;
   }
-}*/
+}
 
 void SPI_send(status_t status)
 {
   //Sends SPI data via SPI
   uint8_t byte1 = status.error >> 8;
   uint8_t byte2 = status.error & 0x00FF;
-  
   PORTB &= ~(1<<2);
   transmit(byte1);
   transmit(byte2);
