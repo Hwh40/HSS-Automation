@@ -7,7 +7,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-THRESHOLD = 200
+THRESHOLD = 22
 INFILE = r"C:\Users\henri\OneDrive - University of Canterbury\University\RH\HSS-Automation\CSV\Monitor.txt"
 OUTFILE = r"C:\Users\henri\OneDrive - University of Canterbury\University\RH\HSS-Automation\CSV\CSV.txt"
 
@@ -23,6 +23,7 @@ def plot_flow(data):
     axes.set_title('Angle of potentiometer sensor')
     axes.set_xlim(0)
     axes.set_ylim(0)
+    axes.legend()
 
 def plot_prox(prox):
     """Plots the state of the proximity sensor during operation"""

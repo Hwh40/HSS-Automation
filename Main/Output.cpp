@@ -26,6 +26,12 @@ void output_init(void)
   pinMode(D1, OUTPUT);
   pinMode(D2, OUTPUT);
   pinMode(LIGHT, OUTPUT);
+  digitalWrite(R1, LOW);
+  digitalWrite(R2, LOW);
+  digitalWrite(R3, LOW);
+  digitalWrite(D1, LOW);
+  digitalWrite(D2, LOW);
+  digitalWrite(LIGHT, LOW);
 }
 
 void updateOutput(output_t out)
