@@ -60,11 +60,12 @@ def proccess(lines):
     blank = []
     empty = []
     for line in lines.split('\n'):
-        sub = line.split(' ')
-        if sub[2] =='F':
-            blank.append([sub[0], sub[3]])
-        elif sub[2] =='P':
-            empty.append([sub[0], sub[3]])
+        if line != '':
+            sub = line.split(' ')
+            if sub[2] =='F':
+                blank.append([sub[0], sub[3]])
+            elif sub[2] =='P':
+                empty.append([sub[0], sub[3]])
     prox = convert(empty)
     prox[:,0] = prox[:,0] - prox[0][0]
     flow = convert(blank)

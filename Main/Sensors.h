@@ -13,7 +13,7 @@
 #include <stdbool.h>
 #include "Output.h"
 
-#define THRESHOLD_ANGLE 5
+
 
 typedef struct {
   uint16_t error;
@@ -28,6 +28,5 @@ void check_plug(status_t, output_t*);
 
 void check_flow(status_t, output_t*);
 
-double bits_toDegree(int);
 
 #endif

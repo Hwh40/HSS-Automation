@@ -11,23 +11,40 @@
 #include <math.h>
 #include <stdint.h>
 
+#define ANGLE_LOW 30
+#define ANGLE_HIGH 60
+#define THRESHOLD 1000
+
 static int equilibrium;
+static uint16_t period = 0;
 static int PROX = 3;
-static int POT = 15;
-static int ADJ = 14;
+static int S1 = 15;
+static int S2 = 14;
 static int D3 = 7;
 static bool is_on = false;
+
+static double sensor_read(void)
+{
+  double tesla1;
+  double tesla2;
+  tesla1 = analogRead(S1);
+  tesla2 = analogRead(S2);
+  tesla1 = (tesla1 - 310) * 100 / 310;
+  tesla2 = (tesla2 - 310) * 100 / 310;
+  double angle = atan2(tesla1, tesla2);
+  return angle;
+}
 
 static void callibrate(void)
 {
   //Finds the initial equilibrium angle of the paddle
-  equilibrium = analogRead(POT);
+  equilibrium = sensor_read();
 }
 
 static uint16_t error(void)
 {
   //Finds the error between the current paddle position and the equilibrium
-  return abs(equilibrium - analogRead(POT));
+  return abs(equilibrium - sensor_read());
 }
 
 static bool doors_shut(void)
@@ -36,27 +53,14 @@ static bool doors_shut(void)
   return (digitalRead(PROX) == HIGH);
 }
 
-static double degree_toBits(void)
-{
-  double num;
-  num = (THRESHOLD_ANGLE * 1024.0 / 360.0);
-  return num;
-}
-
-double bits_toDegree(int n)
-{
-  double num;
-  num = n * 360.0 / 1024.0;
-  return num;
-}
-
 void sensor_init(void)
 {
   //Initialises the pins and callibrates the sensors
   pinMode(PROX, INPUT);
-  pinMode(POT, INPUT);
+  pinMode(S1, INPUT);
+  pinMode(S1, INPUT);
   pinMode(D3, INPUT);
-  pinMode(ADJ, INPUT);
+  period = 0;
   callibrate();
 }
 
@@ -84,11 +88,16 @@ void check_plug(status_t status, output_t* out)
 void check_flow(status_t status, output_t* out)
 {
   //From a status struct checks to see if the flow has exceded the threshold and updates the out struct
-  if (status.error > degree_toBits()) {
+  if (status.error > ANGLE_HIGH || period > THRESHOLD) {
     out->relay2 = true;
     out->relay1 = true;
     out->relay3 = true;
     out->light = true;
+  }
+  if (status.error > ANGLE_LOW) {
+    period++;
+  } else if (status.error <= ANGLE_LOW) {
+    period = 0;
   }
 }
 
