@@ -94,7 +94,7 @@ void check_flow(status_t status, output_t* out)
     out->relay2 = true;
     out->light = true;
   }
-  if (status.error > ANGLE_LOW) {
+  if (status.error > ANGLE_LOW && status.error < ANGLE_HIGH) {
     period++;
   } else if (status.error <= ANGLE_LOW) {
     period = 0;
