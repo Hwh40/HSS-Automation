@@ -15,7 +15,7 @@
 #define ANGLE_HIGH 60
 #define THRESHOLD 1000
 
-static int equilibrium;
+static double equilibrium;
 static uint16_t period = 0;
 static int PROX = 3;
 static int S1 = 15;
@@ -78,9 +78,7 @@ void check_plug(status_t status, output_t* out)
     is_on = true;
   }
   if (status.is_doorShut == true && is_on) {
-    out->relay2 = true;
     out->relay1 = true;
-    out->relay3 = true;
     out->light = true;
   }
 }
@@ -88,10 +86,12 @@ void check_plug(status_t status, output_t* out)
 void check_flow(status_t status, output_t* out)
 {
   //From a status struct checks to see if the flow has exceded the threshold and updates the out struct
-  if (status.error > ANGLE_HIGH || period > THRESHOLD) {
-    out->relay2 = true;
-    out->relay1 = true;
+  if (status.error > ANGLE_HIGH) {
     out->relay3 = true;
+    out->light = true;
+  }
+  if (period > THRESHOLD) {
+    out->relay2 = true;
     out->light = true;
   }
   if (status.error > ANGLE_LOW) {
