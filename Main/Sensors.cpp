@@ -25,14 +25,15 @@ static bool is_on = false;
 
 static double sensor_read(void)
 {
+  //Reads two hall effect sensors and calculates the angle travelled 
   double tesla1;
   double tesla2;
   tesla1 = analogRead(S1);
   tesla2 = analogRead(S2);
   tesla1 = (tesla1 - 310) * 100 / 310;
   tesla2 = (tesla2 - 310) * 100 / 310;
-  double angle = atan2(tesla1, tesla2);
-  return angle;
+  double angle = atan2(tesla2, tesla1);
+  return (angle * 180 / 3.14159);
 }
 
 static void callibrate(void)
