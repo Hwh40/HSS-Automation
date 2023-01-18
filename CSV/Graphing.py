@@ -11,7 +11,7 @@ def graph_set(fig, axes, comment):
     axes.grid(True)
     axes.set_xlabel('Time (s)')
     axes.set_title('Sensor')
-    axes.set_ylim([-360,360])
+    axes.set_ylim([-100,100])
     axes.text(0,100, comment)
     
 
@@ -42,14 +42,17 @@ def main():
                 i+=1
         byte = (str(ser.read()))
         #print(byte)
+        if byte == "b'S'":
+            even = 0
+            byte = str(ser.read())
+            byte = str(ser.read())
         if byte == "b'\\n'":
-            if even % 2 == 0:
+            if even == 0:
                 blank.append(float(st))
-                st = ''
-            else:
+            elif even == 1:
                 empty.append(float(st))
-                st = ''
-                angle.append(180 * math.atan2(empty[-1],blank[-1]) / math.pi)
+            elif even == 2:
+                angle.append(float(st))
                 time.append(j * TIME)
                 axes.cla()
                 graph_set(fig1, axes, comment)
@@ -59,8 +62,9 @@ def main():
                 axes.legend()
                 plt.pause(0.05)
                 j += 1
+            st = ''
             even += 1
-        else:
+        elif byte != "b'\\n'" and byte != "b'S'" and list(byte)[2] != '\\':
             st += list(byte)[-2]
     print('Finished')
     plt.show()

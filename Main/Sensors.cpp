@@ -91,7 +91,7 @@ void check_plug(status_t status, output_t* out)
 void check_flow(status_t status, output_t* out)
 {
   //From a status struct checks to see if the flow has exceded the threshold and updates the out struct
-  rst++
+  rst++;
   if (status.error > ANGLE_HIGH) {
     out->relay3 = true;
     out->light = true;
@@ -108,6 +108,7 @@ void check_flow(status_t status, output_t* out)
   }
   if (rst > 6000 && out->relay2 != true) {
     rst = 0;
+    counter = 0;
   }
 }
 
