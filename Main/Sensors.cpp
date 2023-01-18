@@ -39,13 +39,14 @@ static double sensor_read(void)
 static void callibrate(void)
 {
   //Finds the initial equilibrium angle of the paddle
-  equilibrium = sensor_read();
+  equilibrium = analogRead(S1);
+  //sensor_read();
 }
 
 static uint16_t error(void)
 {
   //Finds the error between the current paddle position and the equilibrium
-  return abs(equilibrium - sensor_read());
+  return abs(equilibrium - analogRead(S1)/*sensor_read()*/);
 }
 
 static bool doors_shut(void)
