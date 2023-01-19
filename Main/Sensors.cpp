@@ -21,8 +21,8 @@ static uint16_t period = 0;
 static uint16_t rst = 0;
 static uint16_t counter = 0;
 static int PROX = 3;
-static int S1 = 15;
-static int S2 = 14;
+static int S1 = 14;
+static int S2 = 15;
 static int D3 = 7;
 static bool is_on = false;
 
@@ -42,14 +42,13 @@ static double sensor_read(void)
 static void callibrate(void)
 {
   //Finds the initial equilibrium angle of the paddle
-  equilibrium = analogRead(S1);
-  //sensor_read();
+  equilibrium = sensor_read();
 }
 
 static uint16_t error(void)
 {
   //Finds the error between the current paddle position and the equilibrium
-  return abs(equilibrium - analogRead(S1)/*sensor_read()*/);
+  return abs(equilibrium - sensor_read());
 }
 
 static bool doors_shut(void)

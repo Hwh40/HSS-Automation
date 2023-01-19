@@ -7,20 +7,17 @@ TIME = 100e-3
 RUNTIME = 60
 
 
-def graph_set(fig, axes, comment):
+def graph_set(fig, axes):
     axes.grid(True)
     axes.set_xlabel('Time (s)')
     axes.set_title('Sensor')
-    axes.set_ylim([-100,100])
-    axes.text(0,100, comment)
-    
+    axes.set_ylim([-110,110])
 
 
 def main():
-    comment = ''
     fig1 = plt.figure("Figure 1")
     axes = plt.axes() 
-    graph_set(fig1, axes, comment)
+    graph_set(fig1, axes)
     ser = serial.Serial('COM7')
     print(ser.name)
     is_done = False
@@ -35,11 +32,8 @@ def main():
     
     while is_done != True:
         
-        if j * TIME > (RUNTIME*i):
-            if input('Cont: ') != '':
-                is_done = True
-            else:
-                i+=1
+        if j * TIME > (RUNTIME):
+            is_done = True
         byte = (str(ser.read()))
         #print(byte)
         if byte == "b'S'":
@@ -55,7 +49,7 @@ def main():
                 angle.append(float(st))
                 time.append(j * TIME)
                 axes.cla()
-                graph_set(fig1, axes, comment)
+                graph_set(fig1, axes)
                 axes.plot(time, blank, 'r-', label = 'Reading 1')
                 axes.plot(time, empty, 'b-', label = 'Reading 2')
                 axes.plot(time, angle, 'g-', label = 'Angle')
