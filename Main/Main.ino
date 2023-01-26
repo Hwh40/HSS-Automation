@@ -3,7 +3,7 @@
 # Author: Henry Hall
 # Date: 30/11/2022
 # Description: Provides processing and control of sensor data 
-    from a proximity sensor and potentiometer in order to 
+    from a proximity sensor and hall effect sensor in order to 
     detect faults in a Yardmaster Horizontal Screw Separator. 
 */
 
@@ -36,13 +36,13 @@ void setup() {
 void loop() {
   //Updates sensors, checks against conditions, and updates outputs at a predefined frequency
   pacer_wait();
-  if (SPI_C != 50) {
+  if (SPI_C != 20) {
     updateSensor(&status);
     check_plug(status, &out);
     check_flow(status, &out);
     updateOutput(out);
   }
-  if (SPI_C == 50) {
+  if (SPI_C == 20) {
     SPI_send(status);
     SPI_C = 0;
   }

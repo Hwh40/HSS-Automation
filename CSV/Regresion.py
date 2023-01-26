@@ -53,7 +53,8 @@ def details(b_2, b_1, b_0, func):
 def main():
     """The Main Function"""
     b_0, b_1 = linear_coef()
-    plot(0, b_1, b_0, y_linear)
     details(0, b_1, b_0, y_linear)
+    plot(0, b_1, b_0, y_linear)
+    
 
 main()

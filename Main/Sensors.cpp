@@ -15,6 +15,7 @@
 #define ANGLE_HIGH 60
 #define FREQ 2000
 #define THRESHOLD 1000
+#define PERIOD 6000
 
 static double equilibrium;
 static uint16_t period = 0;
@@ -35,8 +36,9 @@ static double sensor_read(void)
   tesla2 = analogRead(S2);
   tesla1 = (tesla1 - 310) * 100 / 310;
   tesla2 = (tesla2 - 310) * 100 / 310;
-  double angle = atan2(tesla2, tesla1);
-  return (angle * 180 / 3.14159);
+  double angle = atan2(tesla2, tesla1) * 180 / 3.14159;
+
+  return (angle );
 }
 
 static void callibrate(void)
@@ -45,10 +47,18 @@ static void callibrate(void)
   equilibrium = sensor_read();
 }
 
-static uint16_t error(void)
+static double error(void)
 {
   //Finds the error between the current paddle position and the equilibrium
-  return abs(equilibrium - sensor_read());
+  double angle = sensor_read();
+  angle = angle - equilibrium;
+  if (angle < 0) {
+    angle = angle + 360;
+  }
+  if (angle > 180) {
+    angle = abs(angle - 360);
+  }
+  return angle;
 }
 
 static bool doors_shut(void)
@@ -83,6 +93,8 @@ void check_plug(status_t status, output_t* out)
   }
   if (status.is_doorShut == true && is_on) {
     out->relay1 = true;
+    out->relay2 = true;
+    out->relay3 = true;
     out->light = true;
   }
 }
@@ -90,13 +102,19 @@ void check_plug(status_t status, output_t* out)
 void check_flow(status_t status, output_t* out)
 {
   //From a status struct checks to see if the flow has exceded the threshold and updates the out struct
-  rst++;
+  if (out->relay2 != true) {
+    rst++;
+  }
   if (status.error > ANGLE_HIGH) {
+    out->relay1 = true;
+    out->relay2 = true;
     out->relay3 = true;
     out->light = true;
   }
   if (period > THRESHOLD || counter > FREQ) {
+    out->relay1 = true;
     out->relay2 = true;
+    out->relay3 = true;
     out->light = true;
   }
   if (status.error > ANGLE_LOW && status.error < ANGLE_HIGH) {
@@ -105,10 +123,8 @@ void check_flow(status_t status, output_t* out)
   } else if (status.error <= ANGLE_LOW) {
     period = 0;
   }
-  if (rst > 6000 && out->relay2 != true) {
+  if (rst > PERIOD && out->relay2 != true) {
     rst = 0;
     counter = 0;
   }
 }
-
-

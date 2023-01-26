@@ -8,9 +8,8 @@
 */
 
 #include <stdint.h>
-uint16_t data1;
-uint16_t data2;
-uint16_t data3;
+uint16_t array[3] = {0, 0, 0};
+uint16_t i = 4;
 
 void SPI_init(void)
 {
@@ -33,18 +32,25 @@ void setup() {
   //Initialisiation
   DDRB |= (1<<2);
   SPI_init();
-  Serial.begin(9600);
+  Serial.begin(115200);
 }
 
 void loop() {
   //Receives an SPI transmission and prints it to a serial monitor
-    data1 = receive();
-    data2 = receive();
-    data3 = receive();
-    Serial.print("F ");
-    Serial.print((data1 * 256 + data2));
-    Serial.println();
-    Serial.print("P ");
-    Serial.print(data3);
-    Serial.println();
+    char data = receive();
+    if (data == 'S') {
+      uint8_t byte1 = receive(); 
+      uint8_t byte2 = receive(); 
+      uint8_t byte3 = receive();  
+      Serial.print('S');
+      Serial.print('\n');      
+      Serial.print(byte1 * 256 + byte2);
+      Serial.print('\n');
+      if (byte3 == 1) {
+        Serial.print(100);
+      } else {
+        Serial.print(0);
+      }
+      Serial.print('\n');
+    }
 }

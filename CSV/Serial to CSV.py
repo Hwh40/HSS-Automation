@@ -20,7 +20,7 @@ def plot_flow(data):
     axes.grid(True),
     axes.set_xlabel('Time (s)')
     axes.set_ylabel('Degrees')
-    axes.set_title('Angle of potentiometer sensor')
+    axes.set_title('Angle of sensor')
     axes.set_xlim(0)
     axes.set_ylim(0)
     axes.legend()

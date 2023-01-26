@@ -1,23 +1,30 @@
+# File: Graphing.py
+# Author: Henry Hall
+# Date: 23/01/2022
+# Description: Imports three different sets of data
+# from the serial port. This plots a live graph of this data 
+
 import numpy as np
 import matplotlib.pyplot as plt
 import serial
 import math
+import time
 
-TIME = 100e-3
 RUNTIME = 60
 
 
 def graph_set(fig, axes):
+    """Graphing settings"""
     axes.grid(True)
     axes.set_xlabel('Time (s)')
     axes.set_title('Sensor')
-    axes.set_ylim([-110,110])
 
 
 def main():
+    """The main function"""
     fig1 = plt.figure("Figure 1")
     axes = plt.axes() 
-    graph_set(fig1, axes)
+    
     ser = serial.Serial('COM7')
     print(ser.name)
     is_done = False
@@ -26,16 +33,19 @@ def main():
     even = 0
     blank = []
     empty = []
-    time = []
+    xs = []
     angle = []
     st = ''
+    graph_set(fig1, axes)
+    is_first = True
     
     while is_done != True:
-        
-        if j * TIME > (RUNTIME):
-            is_done = True
         byte = (str(ser.read()))
-        #print(byte)
+        if is_first:
+            start = time.time()
+            is_first = False
+        if (time.time() - start) > (RUNTIME):
+            is_done = True
         if byte == "b'S'":
             even = 0
             byte = str(ser.read())
@@ -47,14 +57,14 @@ def main():
                 empty.append(float(st))
             elif even == 2:
                 angle.append(float(st))
-                time.append(j * TIME)
+                xs.append(time.time() - start)
                 axes.cla()
                 graph_set(fig1, axes)
-                axes.plot(time, blank, 'r-', label = 'Reading 1')
-                axes.plot(time, empty, 'b-', label = 'Reading 2')
-                axes.plot(time, angle, 'g-', label = 'Angle')
+                axes.plot(xs, blank, 'r-', label = 'Reading 1')
+                axes.plot(xs, empty, 'b-', label = 'Reading 2')
+                axes.plot(xs, angle, 'g-', label = 'Angle')
                 axes.legend()
-                plt.pause(0.05)
+                plt.pause(0.001)
                 j += 1
             st = ''
             even += 1

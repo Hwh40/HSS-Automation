@@ -52,6 +52,7 @@ void SPI_send(status_t status)
   uint8_t byte1 = status.error >> 8;
   uint8_t byte2 = status.error & 0x00FF;
   PORTB &= ~(1<<2);
+  transmit('S');
   transmit(byte1);
   transmit(byte2);
   transmit(status.is_doorShut);
