@@ -13,8 +13,6 @@
 #include <stdbool.h>
 #include "Output.h"
 
-
-
 typedef struct {
   uint16_t error;
   bool is_doorShut;
@@ -26,7 +24,6 @@ void updateSensor(status_t*);
 
 void check_plug(status_t, output_t*);
 
-void check_flow(status_t, output_t*);
-
+void check_flow(status_t, output_t*, uint16_t, uint16_t);
 
 #endif

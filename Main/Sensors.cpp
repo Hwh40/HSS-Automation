@@ -11,10 +11,8 @@
 #include <math.h>
 #include <stdint.h>
 
-#define ANGLE_LOW 30
-#define ANGLE_HIGH 60
-#define FREQ 2000
-#define THRESHOLD 1000
+#define FREQUENCY 2000
+#define CONSECUTIVE 1000
 #define PERIOD 6000
 
 static double equilibrium;
@@ -99,28 +97,28 @@ void check_plug(status_t status, output_t* out)
   }
 }
 
-void check_flow(status_t status, output_t* out)
+void check_flow(status_t status, output_t* out, uint16_t angle_low, uint16_t angle_high)
 {
   //From a status struct checks to see if the flow has exceded the threshold and updates the out struct
   if (out->relay2 != true) {
     rst++;
   }
-  if (status.error > ANGLE_HIGH) {
+  if (status.error > angle_high) {
     out->relay1 = true;
     out->relay2 = true;
     out->relay3 = true;
     out->light = true;
   }
-  if (period > THRESHOLD || counter > FREQ) {
+  if (period > CONSECUTIVE || counter > FREQUENCY) {
     out->relay1 = true;
     out->relay2 = true;
     out->relay3 = true;
     out->light = true;
   }
-  if (status.error > ANGLE_LOW && status.error < ANGLE_HIGH) {
+  if (status.error > angle_low && status.error < angle_high) {
     period++;
     counter++;
-  } else if (status.error <= ANGLE_LOW) {
+  } else if (status.error <= angle_low) {
     period = 0;
   }
   if (rst > PERIOD && out->relay2 != true) {

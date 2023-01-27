@@ -16,6 +16,8 @@
 #include "SPIDATA.h"
 
 #define PACER_FREQUENCY 100
+#define ANGLE_LOW 25
+#define ANGLE_HIGH 40
 
 uint16_t SPI_C = 0; 
 status_t status = {0, 0};
@@ -39,7 +41,7 @@ void loop() {
   if (SPI_C != 20) {
     updateSensor(&status);
     check_plug(status, &out);
-    check_flow(status, &out);
+    check_flow(status, &out, ANGLE_LOW, ANGLE_HIGH);
     updateOutput(out);
   }
   if (SPI_C == 20) {
