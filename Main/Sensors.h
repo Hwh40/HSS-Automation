@@ -16,6 +16,7 @@
 typedef struct {
   uint16_t error;
   bool is_doorShut;
+  uint16_t sensitivity;
 } status_t;
 
 void sensor_init(void);

@@ -10,6 +10,7 @@
 #include <stdint.h>
 uint16_t array[3] = {0, 0, 0};
 uint16_t i = 4;
+static char data;
 
 void SPI_init(void)
 {
@@ -24,7 +25,7 @@ uint8_t receive(void)
   SPDR = 0xFF;
   while (!(SPSR & (1 << 7))) {
     continue;
-  }
+  } 
   return SPDR;
 }
 
@@ -32,25 +33,28 @@ void setup() {
   //Initialisiation
   DDRB |= (1<<2);
   SPI_init();
-  Serial.begin(115200);
+  Serial.begin(1000000);
 }
 
 void loop() {
   //Receives an SPI transmission and prints it to a serial monitor
-    char data = receive();
-    if (data == 'S') {
-      uint8_t byte1 = receive(); 
-      uint8_t byte2 = receive(); 
-      uint8_t byte3 = receive();  
-      Serial.print('S');
-      Serial.print('\n');      
-      Serial.print(byte1 * 256 + byte2);
-      Serial.print('\n');
-      if (byte3 == 1) {
-        Serial.print(100);
-      } else {
-        Serial.print(0);
-      }
-      Serial.print('\n');
+
+  data = receive();
+  if (data == 'S') {
+    uint8_t byte1 = receive(); 
+    uint8_t byte2 = receive();  
+    uint8_t byte3 = receive();   
+    Serial.print('S');
+    Serial.print('\n');     
+    Serial.print(byte1);
+    Serial.print('\n');
+    if (byte2 == 1) {
+      Serial.print(100);
+    } else {
+      Serial.print(0);
     }
+    Serial.print('\n');
+    Serial.print(byte3);
+    Serial.print('\n');
+  } 
 }

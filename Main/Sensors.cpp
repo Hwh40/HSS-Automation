@@ -22,6 +22,7 @@ static uint16_t counter = 0;
 static int PROX = 3;
 static int S1 = 14;
 static int S2 = 15;
+static int S = 16;
 static int D3 = 7;
 static bool is_on = false;
 
@@ -72,6 +73,7 @@ void sensor_init(void)
   pinMode(S1, INPUT);
   pinMode(S1, INPUT);
   pinMode(D3, INPUT);
+  pinMode(S, INPUT);
   period = 0;
   callibrate();
 }
@@ -81,6 +83,7 @@ void updateSensor(status_t* status)
   //Updates a status struct using static functions
   status->error = error();
   status->is_doorShut = doors_shut();
+  status->sensitivity = analogRead(S);
 }
 
 void check_plug(status_t status, output_t* out)
@@ -100,6 +103,7 @@ void check_plug(status_t status, output_t* out)
 void check_flow(status_t status, output_t* out, uint16_t angle_low, uint16_t angle_high)
 {
   //From a status struct checks to see if the flow has exceded the threshold and updates the out struct
+  angle_low = angle_low / 11.36;
   if (out->relay2 != true) {
     rst++;
   }

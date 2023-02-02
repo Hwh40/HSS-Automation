@@ -32,12 +32,10 @@ static void transmit(uint16_t data)
 void SPI_send(status_t status)
 {
   //Sends SPI data via SPI
-  uint8_t byte1 = status.error >> 8;
-  uint8_t byte2 = status.error & 0x00FF;
   PORTB &= ~(1<<2);
   transmit('S');
-  transmit(byte1);
-  transmit(byte2);
+  transmit(status.error);
   transmit(status.is_doorShut);
+  transmit((status.sensitivity / 11.36));
   PORTB |= (1<<2);
 }
