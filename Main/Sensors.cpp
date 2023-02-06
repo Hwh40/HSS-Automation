@@ -37,7 +37,7 @@ static double sensor_read(void)
   tesla2 = (tesla2 - 310) * 100 / 310;
   double angle = atan2(tesla2, tesla1) * 180 / 3.14159;
 
-  return (angle );
+  return (angle);
 }
 
 static void callibrate(void)

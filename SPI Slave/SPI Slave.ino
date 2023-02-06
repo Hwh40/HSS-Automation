@@ -8,9 +8,7 @@
 */
 
 #include <stdint.h>
-uint16_t array[3] = {0, 0, 0};
-uint16_t i = 4;
-static char data;
+char data;
 
 void SPI_init(void)
 {
@@ -31,7 +29,6 @@ uint8_t receive(void)
 
 void setup() {
   //Initialisiation
-  DDRB |= (1<<2);
   SPI_init();
   Serial.begin(1000000);
 }
