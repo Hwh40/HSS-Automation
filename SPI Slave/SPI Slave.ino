@@ -13,7 +13,7 @@ char data;
 void SPI_init(void)
 {
   //Initialises DDR and SPI
-  DDRB = 0x08;
+  DDRB = 0x10;
   SPCR = 0x40;
 }
 
